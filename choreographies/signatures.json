@@ -1,0 +1,10 @@
+{
+  "arm_up": { "dir": [0, 1, 0], "gyro": null, "minEnergy": 4, "shake": false },
+  "arm_down": { "dir": [0, -1, 0], "gyro": null, "minEnergy": 4, "shake": false },
+  "arm_left": { "dir": [-1, 0, 0], "gyro": null, "minEnergy": 4, "shake": false },
+  "arm_right": { "dir": [1, 0, 0], "gyro": null, "minEnergy": 4, "shake": false },
+  "punch": { "dir": [0, 0, -1], "gyro": null, "minEnergy": 6, "shake": false },
+  "shake": { "dir": null, "gyro": null, "minEnergy": 5, "shake": true },
+  "circle": { "dir": null, "gyro": [0, 0, 1], "minEnergy": 3, "shake": false },
+  "wave": { "dir": null, "gyro": [1, 0, 0], "minEnergy": 2.5, "shake": true }
+}

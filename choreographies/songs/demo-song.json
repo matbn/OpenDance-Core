@@ -1,0 +1,25 @@
+{
+  "id": "demo-song",
+  "title": "Neon Nights (Demo)",
+  "artist": "OpenDance",
+  "duration": 64,
+  "bpm": 120,
+  "audio": "/audio/demo.wav",
+  "animation": "/dances/demo-song.json",
+  "moves": [
+    { "time": 4, "duration": 2, "type": "arm_up", "label": "Right arm up!", "points": 100 },
+    { "time": 8, "duration": 2, "type": "arm_right", "label": "Swing right!", "points": 100 },
+    { "time": 12, "duration": 2, "type": "arm_down", "label": "Arm down!", "points": 100 },
+    { "time": 16, "duration": 2, "type": "arm_left", "label": "Swing left!", "points": 100 },
+    { "time": 20, "duration": 2, "type": "shake", "label": "Shake it!", "points": 100 },
+    { "time": 24, "duration": 2, "type": "punch", "label": "Punch forward!", "points": 100 },
+    { "time": 28, "duration": 2, "type": "circle", "label": "Draw a circle!", "points": 100 },
+    { "time": 32, "duration": 2, "type": "wave", "label": "Wave your hand!", "points": 100 },
+    { "time": 36, "duration": 2, "type": "arm_up", "label": "Reach for the sky!", "points": 100 },
+    { "time": 40, "duration": 2, "type": "shake", "label": "Shake it again!", "points": 100 },
+    { "time": 44, "duration": 2, "type": "arm_right", "label": "To the right!", "points": 100 },
+    { "time": 48, "duration": 2, "type": "punch", "label": "Double punch!", "points": 100 },
+    { "time": 52, "duration": 2, "type": "circle", "label": "Big circle!", "points": 100 },
+    { "time": 56, "duration": 2, "type": "arm_down", "label": "Bring it down!", "points": 100 }
+  ]
+}
