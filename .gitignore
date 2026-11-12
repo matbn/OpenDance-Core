@@ -4,11 +4,5 @@ dist/
 *.log
 .DS_Store
 
-# The phone controller is its own repository (mobile/.git).
-mobile/
-
-# The dance creator tool is its own repository (creator/.git).
-creator/
-
 # Raw generated art sources; the finished assets live in web/public.
 vibe_images/
