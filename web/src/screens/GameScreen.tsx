@@ -1,6 +1,6 @@
 import { CSSProperties, useCallback, useEffect, useRef, useState } from "react";
 import { Choreography, LiveScore, Rating } from "../types";
-import { DanceAnimation, fetchAnimation } from "../animation";
+import { LoadedAnimation, fetchAnimation } from "../animation";
 import { DancingCoach, LEAD_OUTFIT, BACKUP_OUTFIT } from "../components/Dancer";
 import Pictogram from "../components/Pictogram";
 import RatingBurst from "../components/RatingBurst";
@@ -45,7 +45,7 @@ export default function GameScreen({ choreo, startAt, getOffset, serverUrl, scor
   const [songTime, setSongTime] = useState(-5);
   const [audioBlocked, setAudioBlocked] = useState(false);
   const [muted, setMuted] = useState(false);
-  const [anim, setAnim] = useState<DanceAnimation | null>(null);
+  const [anim, setAnim] = useState<LoadedAnimation | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const startedRef = useRef(false);
   const lastCountRef = useRef(99);

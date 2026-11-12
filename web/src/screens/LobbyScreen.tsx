@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import QRCode from "qrcode";
 import { SongMeta, wsUrl } from "../types";
-import { DanceAnimation } from "../animation";
+import { LoadedAnimation } from "../animation";
 import { DancingCoach, BACKUP_OUTFIT } from "../components/Dancer";
 import { PLAYER_COLORS } from "../palette";
 
@@ -14,7 +14,7 @@ interface Props {
   serverUrl: string;
   onStart: () => void;
   onLeave: () => void;
-  animation: DanceAnimation | null;
+  animation: LoadedAnimation | null;
 }
 
 export default function LobbyScreen({ roomCode, players, songs, selectedSong, onSelect, serverUrl, onStart, onLeave, animation }: Props) {

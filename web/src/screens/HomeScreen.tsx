@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { SongMeta } from "../types";
-import { DanceAnimation } from "../animation";
+import { LoadedAnimation } from "../animation";
 import { DancingCoach, LEAD_OUTFIT } from "../components/Dancer";
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
   serverUrl: string;
   onServerUrl: (url: string) => void;
   onCreateRoom: () => void;
-  animation: DanceAnimation | null;
+  animation: LoadedAnimation | null;
 }
 
 function coverFor(id: string): string | null {

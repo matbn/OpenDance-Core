@@ -1,4 +1,5 @@
 import { Pose } from "./components/dance";
+import { BvhClip, parseBvh, sampleBvh } from "./bvh";
 
 export type EaseName = "smooth" | "linear" | "in" | "out" | "snap" | "hold";
 
@@ -34,7 +35,7 @@ const lerpPair = (a: [number, number], b: [number, number], w: number): [number,
   lerpAngle(a[1], b[1], w)
 ];
 
-function blendPose(a: Pose, b: Pose, w: number): Pose {
+export function blendPose(a: Pose, b: Pose, w: number): Pose {
   return {
     hip: lerp(a.hip, b.hip, w),
     lean: lerp(a.lean, b.lean, w),
@@ -66,12 +67,35 @@ export function sampleAnimation(anim: DanceAnimation, t: number): Pose {
   return blendPose(a.pose, b.pose, ease(u));
 }
 
-export async function fetchAnimation(url: string): Promise<DanceAnimation> {
+// A choreography dance is either hand-authored keyframes (JSON) or a full
+// mocap clip (BVH). Scored moves blend over whichever base is playing.
+export type LoadedAnimation =
+  | { kind: "keys"; anim: DanceAnimation }
+  | { kind: "bvh"; clip: BvhClip };
+
+export function parseAnimationText(name: string, text: string): LoadedAnimation {
+  if (/^\s*HIERARCHY/i.test(text)) return { kind: "bvh", clip: parseBvh(text, name) };
+  const anim: DanceAnimation = JSON.parse(text);
+  if (!Array.isArray(anim.keyframes) || anim.keyframes.length < 2) {
+    throw new Error(`Dance animation ${name}: no keyframes`);
+  }
+  return { kind: "keys", anim };
+}
+
+export function animationDuration(loaded: LoadedAnimation): number {
+  return loaded.kind === "bvh" ? loaded.clip.duration : loaded.anim.duration;
+}
+
+export function sampleLoaded(loaded: LoadedAnimation, t: number): Pose {
+  return loaded.kind === "bvh" ? sampleBvh(loaded.clip, t) : sampleAnimation(loaded.anim, t);
+}
+
+export async function fetchAnimation(url: string): Promise<LoadedAnimation> {
   const res = await fetch(url);
   if (!res.ok) throw new Error(`Dance animation ${url}: HTTP ${res.status}`);
-  const anim: DanceAnimation = await res.json();
-  if (!Array.isArray(anim.keyframes) || anim.keyframes.length < 2) {
-    throw new Error(`Dance animation ${url}: no keyframes`);
+  try {
+    return parseAnimationText(url, await res.text());
+  } catch (e) {
+    throw new Error(`Dance animation ${url}: ${e instanceof Error ? e.message : "unreadable file"}`);
   }
-  return anim;
 }

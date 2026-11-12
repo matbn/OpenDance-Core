@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Choreography, LiveScore, PlayerResult, SongMeta, wsUrl } from "./types";
-import { DanceAnimation, fetchAnimation } from "./animation";
+import { LoadedAnimation, fetchAnimation } from "./animation";
 import HomeScreen from "./screens/HomeScreen";
 import LobbyScreen from "./screens/LobbyScreen";
 import GameScreen from "./screens/GameScreen";
@@ -24,7 +24,7 @@ export default function App() {
   const [scores, setScores] = useState<Record<string, LiveScore>>({});
   const [results, setResults] = useState<PlayerResult[] | null>(null);
   const [error, setError] = useState("");
-  const [previewAnim, setPreviewAnim] = useState<DanceAnimation | null>(null);
+  const [previewAnim, setPreviewAnim] = useState<LoadedAnimation | null>(null);
   const wsRef = useRef<WebSocket | null>(null);
   const offsetRef = useRef(0);
   const pingRef = useRef<number | null>(null);

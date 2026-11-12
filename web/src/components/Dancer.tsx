@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Move } from "../types";
-import { DanceAnimation, sampleAnimation } from "../animation";
+import { LoadedAnimation, animationDuration, blendPose, sampleLoaded } from "../animation";
 import {
   BACKUP_OUTFIT,
   LEAD_OUTFIT,
   Outfit,
   Pose,
-  blendPose,
   groove,
   movePose,
   moveWeight,
@@ -78,7 +77,7 @@ interface CoachProps {
   outfit: Outfit;
   mirror?: boolean;
   className?: string;
-  animation?: DanceAnimation | null;
+  animation?: LoadedAnimation | null;
   loop?: boolean;
 }
 
@@ -100,22 +99,25 @@ export function DancingCoach({ getTime, bpm, move, outfit, mirror, className, an
   const { getTime: gt, bpm: b, move: m, animation: anim, loop: doLoop } = propsRef.current;
   const t = gt();
   const beat = (t * b) / 60;
+  // The imported dance plays continuously; the scored move is a temporary
+  // override blended in and out over it, never a replacement.
   let pose: Pose;
   if (anim && t >= 0) {
-    const at = doLoop && anim.duration > 0 ? t % anim.duration : t;
-    pose = sampleAnimation(anim, at);
+    const dur = animationDuration(anim);
+    const at = doLoop && dur > 0 ? t % dur : t;
+    pose = sampleLoaded(anim, at);
   } else {
     pose = groove(t, beat);
-    if (m) {
-      const elapsed = t - m.time;
-      const remaining = m.time + m.duration - t;
-      if (elapsed >= 0 && remaining >= 0) {
-        pose = blendPose(
-          groove(t, beat),
-          movePose(m.type, elapsed / m.duration, t, beat),
-          moveWeight(elapsed, remaining)
-        );
-      }
+  }
+  if (m) {
+    const elapsed = t - m.time;
+    const remaining = m.time + m.duration - t;
+    if (elapsed >= 0 && remaining >= 0) {
+      pose = blendPose(
+        pose,
+        movePose(m.type, elapsed / m.duration, t, beat),
+        moveWeight(elapsed, remaining)
+      );
     }
   }
   return <DancerFigure pose={pose} outfit={outfit} mirror={mirror} className={className} />;
